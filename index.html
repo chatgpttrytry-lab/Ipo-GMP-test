@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<title>IPO GMP Live Tracker — Free</title>
+<style>
+:root{--bg:#07101d;--card:#101b2d;--card2:#142238;--text:#eef5ff;--muted:#9fb0c7;--line:#24344c;--accent:#5aa9ff;--green:#38d39f;--red:#ff6b7a;--yellow:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#07101d,#0b1422);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:82px}
+header{position:sticky;top:0;z-index:10;background:rgba(7,16,29,.94);backdrop-filter:blur(12px);padding:14px 14px 10px;border-bottom:1px solid var(--line)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-weight:800;font-size:19px}.sub{font-size:11px;color:var(--muted);margin-top:2px}
+.icon{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:9px 11px}
+main{padding:14px}.status{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px;font-size:12px}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}.dot.bad{background:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:16px}.stat{padding:13px}.stat b{display:block;font-size:21px}.stat span{font-size:11px;color:var(--muted)}
+.controls{display:flex;gap:8px;overflow:auto;padding:3px 0 12px}.controls button,.chip{white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:8px 12px}.controls button.active{background:#17385e;color:#fff;border-color:#2b6ca8}
+.search{width:100%;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;color:var(--text);outline:none;margin-bottom:10px}
+.list{display:grid;gap:10px}.ipo{padding:14px}.ipohead{display:flex;justify-content:space-between;gap:10px}.name{font-weight:800}.small{font-size:11px;color:var(--muted)}.badge{font-size:10px;padding:4px 7px;border-radius:7px;background:#18344c;color:#bfe0ff}.gmp{font-size:25px;font-weight:900;color:var(--green)}.negative{color:var(--red)}.row{display:flex;justify-content:space-between;gap:8px;align-items:center}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.metric{background:var(--card2);padding:8px;border-radius:10px}.metric b{display:block;font-size:13px}.metric span{font-size:9px;color:var(--muted)}.actions{display:flex;gap:8px;margin-top:11px}.actions button{flex:1;border:1px solid var(--line);background:var(--card2);color:var(--text);padding:9px;border-radius:10px}.fav.on{color:var(--yellow);border-color:#725d21}
+section{margin-bottom:15px}.title{font-size:15px;font-weight:800;margin:15px 0 9px}.empty{text-align:center;padding:35px;color:var(--muted)}
+nav{position:fixed;bottom:0;left:0;right:0;background:rgba(7,16,29,.97);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:20}.navin{max-width:760px;width:100%;display:grid;grid-template-columns:repeat(4,1fr)}nav button{background:none;border:0;color:var(--muted);padding:10px 4px 12px;font-size:11px}nav button.active{color:#fff}nav .ico{font-size:18px;display:block}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:30;display:none;padding:18px;overflow:auto}.modal.show{display:block}.sheet{max-width:720px;margin:20px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}.close{float:right}.sheet h2{margin-top:0}.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px}.kv div{background:var(--card2);padding:10px;border-radius:10px}.kv small{display:block;color:var(--muted)}.kv b{display:block;margin-top:2px}.source{font-size:10px;color:var(--muted);line-height:1.45;margin-top:12px}.bar{height:7px;background:#24344c;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}
+.notice{background:#13253a;border:1px solid #284b70;padding:11px;border-radius:12px;font-size:12px;color:#cce6ff}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:8px}.calc input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:#fff}.full{grid-column:1/-1}
+canvas{width:100%;height:170px;background:var(--card2);border-radius:12px;margin-top:10px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}.list{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="top"><div><div class="brand">📈 IPO GMP Live Tracker</div><div class="sub">GitHub Edition • Free • No API key</div></div><button class="icon" onclick="openSettings()">⚙️</button></div></header>
+<main id="main"></main>
+</div>
+<nav><div class="navin">
+<button id="n-home" onclick="go('home')"><span class="ico">🏠</span>Home</button>
+<button id="n-watch" onclick="go('watch')"><span class="ico">⭐</span>Watchlist</button>
+<button id="n-calc" onclick="go('calc')"><span class="ico">🧮</span>Calculator</button>
+<button id="n-settings" onclick="openSettings()"><span class="ico">⚙️</span>Settings</button>
+</div></nav>
+<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+
+<script>
+const API='./data/gmp-live.json';
+const STORE='ipo_gmp_free_v5';
+let data=[], meta={}, page='home', filter='all', query='', current=null;
+let watch=JSON.parse(localStorage.getItem(STORE+'_watch')||'[]');
+let alerts=JSON.parse(localStorage.getItem(STORE+'_alerts')||'{}');
+let last=JSON.parse(localStorage.getItem(STORE+'_last')||'null');
+
+const money=n=>n==null||isNaN(n)?'—':'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const save=()=>{localStorage.setItem(STORE+'_watch',JSON.stringify(watch));localStorage.setItem(STORE+'_alerts',JSON.stringify(alerts));};
+function allIpos(){return data||[]}
+function matches(x){
+ const q=query.trim().toLowerCase();
+ if(q && !String(x.name||'').toLowerCase().includes(q)) return false;
+ if(filter==='mainboard') return String(x.group||x.type||'').toLowerCase().includes('main');
+ if(filter==='sme') return String(x.group||x.type||'').toLowerCase().includes('sme');
+ if(filter==='open') return String(x.status||'').toLowerCase()==='open';
+ if(filter==='watch') return watch.includes(x.slug);
+ return true;
+}
+function stats(){
+ const a=allIpos(); const open=a.filter(x=>String(x.status).toLowerCase()==='open').length;
+ const high=a.filter(x=>String(x.confidence).toLowerCase()==='high').length;
+ return `<div class="grid"><div class="stat"><b>${a.length}</b><span>IPOs tracked</span></div><div class="stat"><b>${open}</b><span>Open issues</span></div><div class="stat"><b>${high}</b><span>High confidence</span></div><div class="stat"><b>${watch.length}</b><span>Watchlist</span></div></div>`;
+}
+function card(x){
+ const g=Number(x.median_gmp); const pct=Number(x.est_listing_pct);
+ const trend=x.trend==='down'?'↓':x.trend==='up'?'↑':'→';
+ const isWatch=watch.includes(x.slug);
+ return `<div class="card ipo">
+ <div class="ipohead"><div><div class="name">${esc(x.name)}</div><div class="small">${esc(x.type||'IPO')} • ${esc(x.status||'')}</div></div><span class="badge">${esc(x.confidence||'n/a')}</span></div>
+ <div class="row" style="margin-top:9px"><div><div class="small">Median GMP</div><div class="gmp ${g<0?'negative':''}">${g>=0?'+':''}${money(g)} <span style="font-size:14px">${trend}</span></div></div><div style="text-align:right"><div class="small">Est. listing</div><b>${isNaN(pct)?'—':pct.toFixed(2)+'%'}</b></div></div>
+ <div class="metrics"><div class="metric"><b>${money(x.min_gmp)}–${money(x.max_gmp)}</b><span>GMP range</span></div><div class="metric"><b>${x.subscription!=null?Number(x.subscription).toFixed(2)+'×':'—'}</b><span>Subscription</span></div><div class="metric"><b>${esc(x.listing_date||'—')}</b><span>Listing</span></div></div>
+ <div class="actions"><button onclick="details('${esc(x.slug)}')">Details</button><button class="fav ${isWatch?'on':''}" onclick="toggleWatch('${esc(x.slug)}')">${isWatch?'★ Saved':'☆ Watch'}</button></div></div>`;
+}
+function home(){
+ const shown=allIpos().filter(matches);
+ return `<section><div class="status"><span class="dot ${data.length?'':'bad'}"></span><span>${data.length?'Free source connected':'Using saved/offline data'} • ${meta.generated_display||'—'}</span><button class="icon" style="margin-left:auto;padding:5px 8px" onclick="load()">↻</button></div>
+ ${stats()}</section>
+ <section><div class="title">GMP Board</div><input class="search" placeholder="Search IPO name..." value="${esc(query)}" oninput="query=this.value;render()">
+ <div class="controls">${[['all','All'],['open','Open'],['mainboard','Mainboard'],['sme','SME'],['watch','⭐ Watchlist']].map(([v,t])=>`<button class="${filter===v?'active':''}" onclick="filter='${v}';render()">${t}</button>`).join('')}</div>
+ <div class="list">${shown.length?shown.map(card).join(''):'<div class="card empty">No IPO found.</div>'}</div></section>
+ <div class="notice">⚠️ GMP is an unofficial grey-market sentiment indicator. It is not a guaranteed listing price or return.</div>`;
+}
+function watchPage(){
+ const a=allIpos().filter(x=>watch.includes(x.slug));
+ return `<section><div class="title">⭐ My Watchlist</div><div class="list">${a.length?a.map(card).join(''):'<div class="card empty">No IPO saved yet.<br>Tap ☆ Watch on any IPO.</div>'}</div></section>`;
+}
+function calcPage(){
+ return `<section><div class="title">🧮 GMP Calculator</div><div class="card" style="padding:14px"><div class="calc">
+ <div><div class="small">IPO Price</div><input id="cp" type="number" value="100"></div>
+ <div><div class="small">GMP</div><input id="cg" type="number" value="20"></div>
+ <div><div class="small">Lots</div><input id="cl" type="number" value="1"></div>
+ <div><div class="small">Shares / Lot</div><input id="cs" type="number" value="10"></div>
+ <button class="full" onclick="calculate()" style="padding:11px;border:0;border-radius:10px;background:#1d5d94;color:#fff">Calculate</button>
+ <div class="full" id="cres"></div></div></div></section>`;
+}
+function calculate(){
+ const p=+document.getElementById('cp').value||0,g=+document.getElementById('cg').value||0,l=+document.getElementById('cl').value||0,s=+document.getElementById('cs').value||0;
+ const est=p+g,total=est*l*s,inv=p*l*s;
+ document.getElementById('cres').innerHTML=`<div class="metrics"><div class="metric"><b>${money(est)}</b><span>Estimated listing/share</span></div><div class="metric"><b>${money(total)}</b><span>Estimated value</span></div><div class="metric"><b>${money(total-inv)}</b><span>Paper gain</span></div></div>`;
+}
+function details(slug){
+ const x=data.find(a=>a.slug===slug); if(!x)return;
+ current=x;
+ const hist=x.history||[];
+ document.getElementById('sheet').innerHTML=`<button class="icon close" onclick="closeModal()">✕</button><h2>${esc(x.name)}</h2>
+ <div class="gmp">${Number(x.median_gmp)>=0?'+':''}${money(x.median_gmp)}</div>
+ <div class="small">Median GMP • ${x.n_sources||0} public sources • ${esc(x.confidence||'n/a')} confidence</div>
+ <canvas id="chart" width="680" height="170"></canvas>
+ <div class="kv" style="margin-top:10px">
+ <div><small>GMP range</small><b>${money(x.min_gmp)} – ${money(x.max_gmp)}</b></div>
+ <div><small>Est. listing</small><b>${isNaN(+x.est_listing_pct)?'—':Number(x.est_listing_pct).toFixed(2)+'%'}</b></div>
+ <div><small>Price band</small><b>${money(x.price_band)}</b></div>
+ <div><small>Subscription</small><b>${x.subscription!=null?Number(x.subscription).toFixed(2)+'×':'—'}</b></div>
+ <div><small>Issue size</small><b>${esc(x.issue_size||'—')}</b></div>
+ <div><small>Lot size</small><b>${esc(x.lot_size||'—')}</b></div>
+ <div><small>Open/Close</small><b>${esc(x.open_close||x.dates||'—')}</b></div>
+ <div><small>Listing date</small><b>${esc(x.listing_date||'—')}</b></div></div>
+ <div class="title">Confidence ${esc(x.score!=null?x.score+'/100':'—')}</div><div class="bar"><i style="width:${Math.max(0,Math.min(100,+x.score||0))}%"></i></div>
+ <div class="source">Data source: free public dataset. Source metadata and tracker links are supplied by the dataset. GMP remains unofficial. Last source generation: ${esc(meta.generated_display||'—')}.</div>
+ <div class="actions"><button onclick="setAlert('${esc(x.slug)}')">🔔 Alert</button><button onclick="toggleWatch('${esc(x.slug)}')">${watch.includes(x.slug)?'★ Saved':'☆ Watch'}</button></div>`;
+ document.getElementById('modal').classList.add('show'); drawChart(hist);
+}
+function drawChart(h){
+ const c=document.getElementById('chart');if(!c)return;const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+ if(!h.length){ctx.fillStyle='#9fb0c7';ctx.fillText('No history available',20,80);return}
+ const vals=h.map(a=>+a.median||0),max=Math.max(...vals,1),min=Math.min(...vals,0),pad=25;
+ ctx.strokeStyle='#31445f';ctx.beginPath();ctx.moveTo(pad,145);ctx.lineTo(655,145);ctx.stroke();
+ ctx.strokeStyle='#5aa9ff';ctx.lineWidth=3;ctx.beginPath();
+ vals.forEach((v,i)=>{const x=pad+i*(630/Math.max(1,vals.length-1)),y=135-(v-min)/(Math.max(1,max-min))*100;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+ ctx.fillStyle='#eef5ff';ctx.font='12px system-ui';ctx.fillText('₹'+vals[0],25,20);ctx.fillText('₹'+vals[vals.length-1],610,20);
+}
+function toggleWatch(slug){watch=watch.includes(slug)?watch.filter(x=>x!==slug):[...watch,slug];save();render();if(current&&document.getElementById('modal').classList.contains('show'))details(slug)}
+function setAlert(slug){
+ const v=prompt('Alert when GMP reaches or exceeds ₹:',alerts[slug]?.threshold??'');
+ if(v===null)return; const n=Number(v);if(!isFinite(n))return alert('Enter a valid number.');
+ alerts[slug]={threshold:n,last:alerts[slug]?.last||null};save();checkAlerts(true);alert('Alert saved at ₹'+n+'.');
+}
+function checkAlerts(manual=false){
+ let hit=[];
+ data.forEach(x=>{const a=alerts[x.slug];if(a&&Number(x.median_gmp)>=a.threshold&&a.last!==meta.generated_at){hit.push(x.name+' GMP reached ₹'+x.median_gmp);a.last=meta.generated_at;}});
+ if(hit.length){save(); if('Notification' in window && Notification.permission==='granted') hit.forEach(t=>new Notification('IPO GMP Alert',{body:t})); if(!manual) alert(hit.join('\\n'))}
+}
+async function notify(){
+ if(!('Notification'in window))return alert('Browser notifications are not supported here.');
+ const p=await Notification.requestPermission();alert(p==='granted'?'Notifications enabled.':'Notifications not enabled.');
+}
+function settings(){
+ return `<section><div class="title">⚙️ Free App Settings</div><div class="card" style="padding:14px">
+ <div class="notice">No API key is required. This app reads a public JSON dataset. The dataset is generated periodically, so this is not tick-by-tick exchange/GMP data.</div>
+ <div class="actions"><button onclick="load()">↻ Refresh now</button><button onclick="notify()">🔔 Notifications</button></div>
+ <div class="actions"><button onclick="exportWatch()">Export Watchlist</button><button onclick="clearSaved()">Clear saved data</button></div>
+ <div class="source"><b>Data file</b><br>${esc(API)}<br><br>Use only for personal/informational purposes. Always verify IPO price, subscription, allotment and listing details with official exchange/registrar sources before acting.</div>
+ </div></section>`;
+}
+function exportWatch(){const blob=new Blob([JSON.stringify(watch,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ipo-watchlist.json';a.click();URL.revokeObjectURL(a.href)}
+function clearSaved(){if(confirm('Clear watchlist, alerts and cached data?')){localStorage.removeItem(STORE+'_watch');localStorage.removeItem(STORE+'_alerts');localStorage.removeItem(STORE+'_last');location.reload()}}
+function openSettings(){page='settings';render()}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function go(p){page=p;filter=p==='watch'?'watch':'all';render()}
+function render(){
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));const nb=document.getElementById('n-'+page);if(nb)nb.classList.add('active');
+ document.getElementById('main').innerHTML=page==='home'?home():page==='watch'?watchPage():page==='calc'?calcPage():settings();
+}
+async function load(){
+ try{
+  const r=await fetch(API+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);
+  const j=await r.json();data=Array.isArray(j.ipos)?j.ipos:[];
+  meta=j;last=j;localStorage.setItem(STORE+'_last',JSON.stringify(j));
+  checkAlerts();render();
+ }catch(e){
+  const j=last||JSON.parse(localStorage.getItem(STORE+'_last')||'null');
+  if(j){meta=j;data=j.ipos||[];render();}else{data=[];render();}
+  console.error(e);
+ }
+}
+(function init(){if(last){meta=last;data=last.ipos||[]}render();load();setInterval(load,10*60*1000)})();
+</script>
+</body></html>
