@@ -1,182 +1,437 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
-<title>IPO GMP Live Tracker — Free</title>
+<meta name="description" content="LIVE GMP TRACKER - IPO GMP dashboard">
+<title>LIVE GMP TRACKER</title>
 <style>
-:root{--bg:#07101d;--card:#101b2d;--card2:#142238;--text:#eef5ff;--muted:#9fb0c7;--line:#24344c;--accent:#5aa9ff;--green:#38d39f;--red:#ff6b7a;--yellow:#ffd166}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#07101d,#0b1422);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:82px}
-header{position:sticky;top:0;z-index:10;background:rgba(7,16,29,.94);backdrop-filter:blur(12px);padding:14px 14px 10px;border-bottom:1px solid var(--line)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-weight:800;font-size:19px}.sub{font-size:11px;color:var(--muted);margin-top:2px}
-.icon{background:var(--card2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:9px 11px}
-main{padding:14px}.status{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:12px;font-size:12px}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}.dot.bad{background:var(--red)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:16px}.stat{padding:13px}.stat b{display:block;font-size:21px}.stat span{font-size:11px;color:var(--muted)}
-.controls{display:flex;gap:8px;overflow:auto;padding:3px 0 12px}.controls button,.chip{white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:999px;padding:8px 12px}.controls button.active{background:#17385e;color:#fff;border-color:#2b6ca8}
-.search{width:100%;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 13px;color:var(--text);outline:none;margin-bottom:10px}
-.list{display:grid;gap:10px}.ipo{padding:14px}.ipohead{display:flex;justify-content:space-between;gap:10px}.name{font-weight:800}.small{font-size:11px;color:var(--muted)}.badge{font-size:10px;padding:4px 7px;border-radius:7px;background:#18344c;color:#bfe0ff}.gmp{font-size:25px;font-weight:900;color:var(--green)}.negative{color:var(--red)}.row{display:flex;justify-content:space-between;gap:8px;align-items:center}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.metric{background:var(--card2);padding:8px;border-radius:10px}.metric b{display:block;font-size:13px}.metric span{font-size:9px;color:var(--muted)}.actions{display:flex;gap:8px;margin-top:11px}.actions button{flex:1;border:1px solid var(--line);background:var(--card2);color:var(--text);padding:9px;border-radius:10px}.fav.on{color:var(--yellow);border-color:#725d21}
-section{margin-bottom:15px}.title{font-size:15px;font-weight:800;margin:15px 0 9px}.empty{text-align:center;padding:35px;color:var(--muted)}
-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(7,16,29,.97);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:20}.navin{max-width:760px;width:100%;display:grid;grid-template-columns:repeat(4,1fr)}nav button{background:none;border:0;color:var(--muted);padding:10px 4px 12px;font-size:11px}nav button.active{color:#fff}nav .ico{font-size:18px;display:block}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:30;display:none;padding:18px;overflow:auto}.modal.show{display:block}.sheet{max-width:720px;margin:20px auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}.close{float:right}.sheet h2{margin-top:0}.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px}.kv div{background:var(--card2);padding:10px;border-radius:10px}.kv small{display:block;color:var(--muted)}.kv b{display:block;margin-top:2px}.source{font-size:10px;color:var(--muted);line-height:1.45;margin-top:12px}.bar{height:7px;background:#24344c;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}
-.notice{background:#13253a;border:1px solid #284b70;padding:11px;border-radius:12px;font-size:12px;color:#cce6ff}
-.calc{display:grid;grid-template-columns:1fr 1fr;gap:8px}.calc input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:#fff}.full{grid-column:1/-1}
-canvas{width:100%;height:170px;background:var(--card2);border-radius:12px;margin-top:10px}
-@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}.list{grid-template-columns:1fr 1fr}}
+:root{
+  --bg:#f3f6fa;--card:#fff;--text:#172033;--muted:#6b7280;--line:#e5e9f0;
+  --primary:#2563eb;--primary2:#1d4ed8;--green:#16a34a;--red:#dc2626;
+  --orange:#ea580c;--shadow:0 8px 28px rgba(20,35,60,.08);--radius:18px
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer;border:0}
+.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:82px}
+header{position:sticky;top:0;z-index:20;background:rgba(243,246,250,.94);backdrop-filter:blur(14px);padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-weight:900;font-size:20px;letter-spacing:.3px}.logo span{color:var(--primary)}
+.header-actions{display:flex;gap:8px}.icon-btn{width:40px;height:40px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);color:var(--text)}
+.updated{font-size:12px;color:var(--muted);margin-top:5px}
+main{padding:14px 16px}
+.screen{display:none}.screen.active{display:block}
+.hero{background:linear-gradient(135deg,#0b1220,#172554);color:white;border-radius:24px;padding:20px;box-shadow:var(--shadow);margin-bottom:14px}
+.hero h1{margin:0 0 6px;font-size:26px}.hero p{margin:0;color:#cbd5e1;font-size:13px}
+.live-dot{display:inline-flex;align-items:center;gap:6px;font-size:12px;margin-top:14px}.dot{width:8px;height:8px;background:#22c55e;border-radius:50%;box-shadow:0 0 0 5px rgba(34,197,94,.12)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:21px}.stat small{color:var(--muted);font-size:11px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px}
+.section-title h2{font-size:16px;margin:0}.section-title button{background:none;color:var(--primary);font-size:12px}
+.search{display:flex;gap:8px;margin-bottom:10px}.search input{flex:1;border:1px solid var(--line);background:var(--card);border-radius:13px;padding:12px 13px;outline:none}.search input:focus{border-color:var(--primary)}
+.filters{display:flex;gap:7px;overflow:auto;padding-bottom:4px;margin-bottom:10px}.chip{white-space:nowrap;padding:8px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:12px;color:var(--muted)}.chip.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.grid{display:grid;gap:10px}.ipo-card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px;box-shadow:var(--shadow);position:relative}
+.ipo-top{display:flex;justify-content:space-between;gap:10px}.ipo-name{font-weight:800;font-size:15px}.badge{font-size:10px;font-weight:800;padding:5px 8px;border-radius:999px;background:#eff6ff;color:#1d4ed8}
+.gmp-row{display:flex;justify-content:space-between;align-items:end;margin-top:12px}.gmp{font-size:24px;font-weight:900}.positive{color:var(--green)}.negative{color:var(--red)}.neutral{color:var(--muted)}
+.gmp-pct{font-weight:800;font-size:14px}.muted{color:var(--muted)}.mini{font-size:11px;color:var(--muted)}
+.ipo-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}.ipo-meta div{font-size:11px;color:var(--muted)}.ipo-meta b{display:block;color:var(--text);font-size:13px;margin-top:2px}
+.card-actions{display:flex;gap:8px;margin-top:12px}.btn{padding:10px 12px;border-radius:11px;font-weight:700;font-size:12px}.btn.primary{background:var(--primary);color:#fff}.btn.secondary{background:#eef2f7;color:var(--text)}.btn.danger{background:#fef2f2;color:var(--red)}
+.empty{padding:30px;text-align:center;background:var(--card);border:1px dashed var(--line);border-radius:16px;color:var(--muted)}
+.detail-head{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+.back{background:none;color:var(--primary);font-weight:700;padding:0;margin-bottom:12px}.big-number{font-size:38px;font-weight:950}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}.detail-box{background:#f7f9fc;border-radius:13px;padding:12px}.detail-box small{color:var(--muted);display:block}.detail-box b{display:block;margin-top:4px;font-size:15px}
+.table-card{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:hidden;box-shadow:var(--shadow)}table{width:100%;border-collapse:collapse;font-size:12px}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:700}tr:last-child td{border-bottom:0}
+.calc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}.field{margin-bottom:11px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}.field input,.field select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;outline:none}.result{margin-top:12px;display:grid;gap:8px}.result div{display:flex;justify-content:space-between;padding:11px;background:#f7f9fc;border-radius:11px}.result b{font-size:15px}
+.list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}.list-row:last-child{border-bottom:0}
+.switch{position:relative;width:48px;height:27px;background:#cbd5e1;border-radius:99px}.switch.on{background:var(--primary)}.switch i{position:absolute;width:21px;height:21px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s}.switch.on i{left:24px}
+.note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:13px;padding:12px;font-size:12px;line-height:1.45}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(14px)}.nav-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);padding:7px 6px calc(7px + env(safe-area-inset-bottom))}.nav-btn{background:none;color:#7b8494;font-size:10px;padding:6px 2px}.nav-btn strong{display:block;font-size:19px;line-height:20px}.nav-btn.active{color:var(--primary)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:10px 14px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:60;display:none;align-items:end;justify-content:center}.modal.show{display:flex}.sheet{width:min(760px,100%);max-height:92vh;overflow:auto;background:var(--bg);border-radius:22px 22px 0 0;padding:17px}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.close{background:var(--card);border:1px solid var(--line);border-radius:10px;width:36px;height:36px}
+.dark{--bg:#0b1220;--card:#111827;--text:#f1f5f9;--muted:#94a3b8;--line:#263244;--shadow:0 8px 28px rgba(0,0,0,.25)}.dark header{background:rgba(11,18,32,.94)}.dark .hero{background:linear-gradient(135deg,#020617,#172554)}.dark .detail-box,.dark .result div{background:#182234}.dark .btn.secondary{background:#1e293b;color:#f1f5f9}.dark input,.dark select{background:#0f172a;color:#f1f5f9}
+@media(min-width:700px){.grid.cols2{grid-template-columns:repeat(2,1fr)}.ipo-meta{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><div class="top"><div><div class="brand">📈 IPO GMP Live Tracker</div><div class="sub">GitHub Edition • Free • No API key</div></div><button class="icon" onclick="openSettings()">⚙️</button></div></header>
-<main id="main"></main>
+<header>
+  <div class="header-row">
+    <div class="logo">LIVE <span>GMP</span> TRACKER</div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="showScreen('alerts')" aria-label="Alerts">🔔</button>
+      <button class="icon-btn" onclick="showScreen('settings')" aria-label="Settings">⚙️</button>
+    </div>
+  </div>
+  <div class="updated" id="updatedText">Loading market data...</div>
+</header>
+
+<main>
+<section id="home" class="screen active">
+  <div class="hero">
+    <h1>IPO GMP Dashboard</h1>
+    <p>Track grey-market premium, estimated listing price and IPO status in one place.</p>
+    <div class="live-dot"><span class="dot"></span><span id="liveStatus">LIVE DATA</span></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><b id="statLive">0</b><small>LIVE IPO</small></div>
+    <div class="stat"><b id="statOpen">0</b><small>OPEN IPO</small></div>
+    <div class="stat"><b id="statUpcoming">0</b><small>UPCOMING</small></div>
+  </div>
+  <div class="section-title"><h2>🔥 Top GMP</h2><button onclick="showScreen('gmp')">View All</button></div>
+  <div id="topList" class="grid"></div>
+  <div class="section-title"><h2>📅 Upcoming IPO</h2><button onclick="setStatusFilter('UPCOMING');showScreen('gmp')">View All</button></div>
+  <div id="upcomingList" class="grid"></div>
+</section>
+
+<section id="gmp" class="screen">
+  <div class="section-title"><h2>LIVE GMP</h2><button onclick="refreshData()">↻ Refresh</button></div>
+  <div class="search"><input id="searchInput" placeholder="Search IPO name..." oninput="renderGMP()"><button class="btn primary" onclick="refreshData()">LIVE</button></div>
+  <div class="filters" id="statusFilters">
+    <button class="chip active" data-status="ALL" onclick="setStatusFilter('ALL')">ALL</button>
+    <button class="chip" data-status="OPEN" onclick="setStatusFilter('OPEN')">OPEN</button>
+    <button class="chip" data-status="UPCOMING" onclick="setStatusFilter('UPCOMING')">UPCOMING</button>
+    <button class="chip" data-status="CLOSED" onclick="setStatusFilter('CLOSED')">CLOSED</button>
+    <button class="chip" data-status="LISTED" onclick="setStatusFilter('LISTED')">LISTED</button>
+  </div>
+  <div class="filters">
+    <button class="chip active" data-type="ALL" onclick="setTypeFilter('ALL')">ALL</button>
+    <button class="chip" data-type="MAINBOARD" onclick="setTypeFilter('MAINBOARD')">MAINBOARD</button>
+    <button class="chip" data-type="SME" onclick="setTypeFilter('SME')">SME</button>
+  </div>
+  <div class="filters">
+    <button class="chip active" data-sort="gmp" onclick="setSort('gmp')">Highest GMP</button>
+    <button class="chip" data-sort="pct" onclick="setSort('pct')">Highest %</button>
+    <button class="chip" data-sort="recent" onclick="setSort('recent')">Recently Updated</button>
+  </div>
+  <div id="gmpList" class="grid"></div>
+</section>
+
+<section id="watchlist" class="screen">
+  <div class="section-title"><h2>⭐ My Watchlist</h2><button onclick="renderWatchlist()">Refresh</button></div>
+  <div id="watchList" class="grid"></div>
+</section>
+
+<section id="calculator" class="screen">
+  <div class="section-title"><h2>🧮 GMP Calculator</h2></div>
+  <div class="calc">
+    <div class="field"><label>IPO Price / Upper Price Band (₹)</label><input id="calcPrice" type="number" value="675" oninput="calculate()"></div>
+    <div class="field"><label>GMP (₹)</label><input id="calcGmp" type="number" value="125" oninput="calculate()"></div>
+    <div class="field"><label>Lot Size</label><input id="calcLot" type="number" value="22" oninput="calculate()"></div>
+    <div class="field"><label>Number of Lots</label><input id="calcLots" type="number" value="1" min="1" oninput="calculate()"></div>
+    <div class="result">
+      <div><span>Estimated Listing Price</span><b id="rListing">₹800</b></div>
+      <div><span>Estimated Gain / Share</span><b id="rGain">₹125</b></div>
+      <div><span>Estimated Gain / Lot</span><b id="rLotGain">₹2,750</b></div>
+      <div><span>Total Estimated Gain</span><b id="rTotal">₹2,750</b></div>
+      <div><span>Estimated GMP %</span><b id="rPct">18.52%</b></div>
+    </div>
+    <div class="note" style="margin-top:12px">GMP and estimated listing values are indicative only. Grey-market quotes are unofficial and are not guaranteed listing prices.</div>
+  </div>
+</section>
+
+<section id="alerts" class="screen">
+  <div class="section-title"><h2>🔔 Alerts</h2></div>
+  <div id="alertList" class="calc"></div>
+</section>
+
+<section id="settings" class="screen">
+  <div class="section-title"><h2>⚙️ Settings</h2></div>
+  <div class="calc">
+    <div class="list-row"><div><b>Dark Mode</b><div class="mini">Use dark dashboard theme</div></div><button id="themeSwitch" class="switch" onclick="toggleTheme()"><i></i></button></div>
+    <div class="list-row"><div><b>Auto Refresh</b><div class="mini">Refresh data periodically</div></div><button id="refreshSwitch" class="switch on" onclick="toggleAutoRefresh()"><i></i></button></div>
+    <div class="field" style="margin-top:14px"><label>Refresh Interval</label><select id="refreshInterval" onchange="saveSettings()"><option value="30000">30 seconds</option><option value="60000" selected>1 minute</option><option value="300000">5 minutes</option></select></div>
+    <div class="list-row"><div><b>Data Cache</b><div class="mini">Last successful data is stored locally</div></div><button class="btn danger" onclick="clearCache()">Clear</button></div>
+    <div class="list-row"><div><b>Demo Data</b><div class="mini">This file includes safe sample records until a real API is connected</div></div><span class="badge">ACTIVE</span></div>
+  </div>
+  <div class="note" style="margin-top:12px">To make this a true live production tracker, connect a permitted GMP data provider/API in the CONFIG section of this file. Never expose a private API key in client-side HTML.</div>
+</section>
+
+<section id="details" class="screen"></section>
+</main>
 </div>
-<nav><div class="navin">
-<button id="n-home" onclick="go('home')"><span class="ico">🏠</span>Home</button>
-<button id="n-watch" onclick="go('watch')"><span class="ico">⭐</span>Watchlist</button>
-<button id="n-calc" onclick="go('calc')"><span class="ico">🧮</span>Calculator</button>
-<button id="n-settings" onclick="openSettings()"><span class="ico">⚙️</span>Settings</button>
+
+<nav><div class="nav-inner">
+  <button class="nav-btn active" data-screen="home" onclick="showScreen('home')"><strong>⌂</strong>Home</button>
+  <button class="nav-btn" data-screen="gmp" onclick="showScreen('gmp')"><strong>📊</strong>GMP</button>
+  <button class="nav-btn" data-screen="watchlist" onclick="showScreen('watchlist')"><strong>☆</strong>Watchlist</button>
+  <button class="nav-btn" data-screen="calculator" onclick="showScreen('calculator')"><strong>🧮</strong>Calc</button>
+  <button class="nav-btn" data-screen="settings" onclick="showScreen('settings')"><strong>⋯</strong>More</button>
 </div></nav>
-<div id="modal" class="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<div id="toast" class="toast"></div>
 
 <script>
-const API='./data/gmp-live.json';
-const STORE='ipo_gmp_free_v5';
-let data=[], meta={}, page='home', filter='all', query='', current=null;
-let watch=JSON.parse(localStorage.getItem(STORE+'_watch')||'[]');
-let alerts=JSON.parse(localStorage.getItem(STORE+'_alerts')||'{}');
-let last=JSON.parse(localStorage.getItem(STORE+'_last')||'null');
+'use strict';
 
-const money=n=>n==null||isNaN(n)?'—':'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const save=()=>{localStorage.setItem(STORE+'_watch',JSON.stringify(watch));localStorage.setItem(STORE+'_alerts',JSON.stringify(alerts));};
-function allIpos(){return data||[]}
-function matches(x){
- const q=query.trim().toLowerCase();
- if(q && !String(x.name||'').toLowerCase().includes(q)) return false;
- if(filter==='mainboard') return String(x.group||x.type||'').toLowerCase().includes('main');
- if(filter==='sme') return String(x.group||x.type||'').toLowerCase().includes('sme');
- if(filter==='open') return String(x.status||'').toLowerCase()==='open';
- if(filter==='watch') return watch.includes(x.slug);
- return true;
+/* =========================================================
+   LIVE GMP TRACKER - SINGLE FILE APP
+   Replace CONFIG.API_URL with your permitted provider endpoint.
+   Expected response: an array, or {data:[...]}.
+   ========================================================= */
+
+const CONFIG = {
+  API_URL: '', // Example: 'https://your-domain.example/api/ipo'
+  API_TIMEOUT: 10000,
+  CACHE_KEY: 'lgmp_cache_v1',
+  HISTORY_KEY: 'lgmp_history_v1',
+  WATCH_KEY: 'lgmp_watch_v1',
+  SETTINGS_KEY: 'lgmp_settings_v1',
+  ALERTS_KEY: 'lgmp_alerts_v1'
+};
+
+const SAMPLE_DATA = [
+ {id:'sample-1',name:'ABC Industries IPO',type:'MAINBOARD',status:'OPEN',gmp:125,priceLow:650,priceHigh:675,lotSize:22,issueSize:'₹1,250 Cr',openDate:'03 Oct 2026',closeDate:'07 Oct 2026',allotmentDate:'08 Oct 2026',listingDate:'10 Oct 2026',updatedMinutes:2,subscription:{retail:8.42,nii:21.35,qib:4.82,total:11.26}},
+ {id:'sample-2',name:'XYZ Technologies IPO',type:'MAINBOARD',status:'OPEN',gmp:80,priceLow:400,priceHigh:425,lotSize:30,issueSize:'₹850 Cr',openDate:'02 Oct 2026',closeDate:'06 Oct 2026',allotmentDate:'07 Oct 2026',listingDate:'09 Oct 2026',updatedMinutes:5,subscription:{retail:5.62,nii:14.2,qib:3.75,total:7.91}},
+ {id:'sample-3',name:'PQR Healthcare IPO',type:'SME',status:'UPCOMING',gmp:55,priceLow:210,priceHigh:220,lotSize:600,issueSize:'₹110 Cr',openDate:'08 Oct 2026',closeDate:'12 Oct 2026',allotmentDate:'13 Oct 2026',listingDate:'15 Oct 2026',updatedMinutes:8,subscription:{retail:0,nii:0,qib:0,total:0}},
+ {id:'sample-4',name:'SUN Retail IPO',type:'MAINBOARD',status:'UPCOMING',gmp:25,priceLow:300,priceHigh:315,lotSize:47,issueSize:'₹620 Cr',openDate:'10 Oct 2026',closeDate:'14 Oct 2026',allotmentDate:'15 Oct 2026',listingDate:'17 Oct 2026',updatedMinutes:12,subscription:{retail:0,nii:0,qib:0,total:0}},
+ {id:'sample-5',name:'MNO Engineering IPO',type:'SME',status:'CLOSED',gmp:-20,priceLow:180,priceHigh:190,lotSize:700,issueSize:'₹95 Cr',openDate:'27 Sep 2026',closeDate:'01 Oct 2026',allotmentDate:'03 Oct 2026',listingDate:'06 Oct 2026',updatedMinutes:25,subscription:{retail:18.1,nii:34.2,qib:2.2,total:21.4}},
+ {id:'sample-6',name:'RST Consumer IPO',type:'MAINBOARD',status:'LISTED',gmp:0,priceLow:500,priceHigh:520,lotSize:28,issueSize:'₹1,600 Cr',openDate:'20 Sep 2026',closeDate:'24 Sep 2026',allotmentDate:'25 Sep 2026',listingDate:'29 Sep 2026',updatedMinutes:45,subscription:{retail:12.1,nii:26.7,qib:8.4,total:16.3}}
+];
+
+let state = {
+  data: [],
+  statusFilter: 'ALL',
+  typeFilter: 'ALL',
+  sort: 'gmp',
+  selectedId: null,
+  watchlist: JSON.parse(localStorage.getItem(CONFIG.WATCH_KEY)||'[]'),
+  alerts: JSON.parse(localStorage.getItem(CONFIG.ALERTS_KEY)||'[]'),
+  settings: Object.assign({dark:false,autoRefresh:true,interval:60000}, JSON.parse(localStorage.getItem(CONFIG.SETTINGS_KEY)||'{}')),
+  refreshTimer:null,
+  source:'Demo Data'
+};
+
+const $ = id => document.getElementById(id);
+const money = n => '₹' + Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:0});
+const pct = n => (Number(n||0)).toFixed(2) + '%';
+
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function gmpPct(item){return item.priceHigh ? (item.gmp/item.priceHigh)*100 : 0}
+function listing(item){return Number(item.priceHigh||0)+Number(item.gmp||0)}
+function nowText(){return new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+
+function normalizeItem(x,i){
+  const priceHigh=Number(x.priceHigh ?? x.price ?? x.upperPrice ?? 0);
+  const gmp=Number(x.gmp ?? x.gmpValue ?? 0);
+  return {
+    id:String(x.id ?? x.slug ?? ('api-'+i)),
+    name:String(x.name ?? x.ipoName ?? x.companyName ?? 'Unnamed IPO'),
+    type:String(x.type ?? x.category ?? 'MAINBOARD').toUpperCase(),
+    status:String(x.status ?? 'UPCOMING').toUpperCase(),
+    gmp,priceLow:Number(x.priceLow ?? x.lowerPrice ?? priceHigh),priceHigh,
+    lotSize:Number(x.lotSize ?? x.lot ?? 0),issueSize:x.issueSize ?? '—',
+    openDate:x.openDate ?? '—',closeDate:x.closeDate ?? '—',allotmentDate:x.allotmentDate ?? '—',listingDate:x.listingDate ?? '—',
+    updatedMinutes:Number(x.updatedMinutes ?? 0),
+    subscription:x.subscription ?? {retail:0,nii:0,qib:0,total:0}
+  };
 }
-function stats(){
- const a=allIpos(); const open=a.filter(x=>String(x.status).toLowerCase()==='open').length;
- const high=a.filter(x=>String(x.confidence).toLowerCase()==='high').length;
- return `<div class="grid"><div class="stat"><b>${a.length}</b><span>IPOs tracked</span></div><div class="stat"><b>${open}</b><span>Open issues</span></div><div class="stat"><b>${high}</b><span>High confidence</span></div><div class="stat"><b>${watch.length}</b><span>Watchlist</span></div></div>`;
+
+async function fetchLiveData(){
+  if(!CONFIG.API_URL) return null;
+  const ctrl=new AbortController();
+  const timer=setTimeout(()=>ctrl.abort(),CONFIG.API_TIMEOUT);
+  try{
+    const res=await fetch(CONFIG.API_URL,{signal:ctrl.signal,cache:'no-store'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const json=await res.json();
+    const arr=Array.isArray(json)?json:(json.data||json.items||[]);
+    if(!Array.isArray(arr)||!arr.length) throw new Error('Empty API response');
+    return arr.map(normalizeItem);
+  } finally {clearTimeout(timer)}
 }
-function card(x){
- const g=Number(x.median_gmp); const pct=Number(x.est_listing_pct);
- const trend=x.trend==='down'?'↓':x.trend==='up'?'↑':'→';
- const isWatch=watch.includes(x.slug);
- return `<div class="card ipo">
- <div class="ipohead"><div><div class="name">${esc(x.name)}</div><div class="small">${esc(x.type||'IPO')} • ${esc(x.status||'')}</div></div><span class="badge">${esc(x.confidence||'n/a')}</span></div>
- <div class="row" style="margin-top:9px"><div><div class="small">Median GMP</div><div class="gmp ${g<0?'negative':''}">${g>=0?'+':''}${money(g)} <span style="font-size:14px">${trend}</span></div></div><div style="text-align:right"><div class="small">Est. listing</div><b>${isNaN(pct)?'—':pct.toFixed(2)+'%'}</b></div></div>
- <div class="metrics"><div class="metric"><b>${money(x.min_gmp)}–${money(x.max_gmp)}</b><span>GMP range</span></div><div class="metric"><b>${x.subscription!=null?Number(x.subscription).toFixed(2)+'×':'—'}</b><span>Subscription</span></div><div class="metric"><b>${esc(x.listing_date||'—')}</b><span>Listing</span></div></div>
- <div class="actions"><button onclick="details('${esc(x.slug)}')">Details</button><button class="fav ${isWatch?'on':''}" onclick="toggleWatch('${esc(x.slug)}')">${isWatch?'★ Saved':'☆ Watch'}</button></div></div>`;
+
+async function refreshData(){
+  $('liveStatus').textContent='UPDATING...';
+  try{
+    const live=await fetchLiveData();
+    if(live){
+      state.data=live;state.source='Live API';
+      localStorage.setItem(CONFIG.CACHE_KEY,JSON.stringify({savedAt:Date.now(),data:live,source:'Live API'}));
+    }else{
+      const cached=JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY)||'null');
+      if(cached?.data?.length){state.data=cached.data;state.source='Cached Data'}
+      else {state.data=clone(SAMPLE_DATA);state.source='Demo Data'}
+    }
+    const cacheNote=state.source==='Live API'?'LIVE API':state.source==='Cached Data'?'CACHED':'DEMO DATA';
+    $('liveStatus').textContent=cacheNote;
+    $('updatedText').textContent='Updated: '+nowText()+' • '+cacheNote;
+    renderAll(); saveHistorySnapshot(); checkAlerts();
+  }catch(e){
+    const cached=JSON.parse(localStorage.getItem(CONFIG.CACHE_KEY)||'null');
+    state.data=cached?.data?.length?cached.data:clone(SAMPLE_DATA);
+    state.source=cached?.data?.length?'Cached Data':'Demo Data';
+    $('liveStatus').textContent='OFFLINE FALLBACK';
+    $('updatedText').textContent='Live source unavailable • showing '+state.source.toLowerCase();
+    renderAll();
+  }
 }
-function home(){
- const shown=allIpos().filter(matches);
- return `<section><div class="status"><span class="dot ${data.length?'':'bad'}"></span><span>${data.length?'Free source connected':'Using saved/offline data'} • ${meta.generated_display||'—'}</span><button class="icon" style="margin-left:auto;padding:5px 8px" onclick="load()">↻</button></div>
- ${stats()}</section>
- <section><div class="title">GMP Board</div><input class="search" placeholder="Search IPO name..." value="${esc(query)}" oninput="query=this.value;render()">
- <div class="controls">${[['all','All'],['open','Open'],['mainboard','Mainboard'],['sme','SME'],['watch','⭐ Watchlist']].map(([v,t])=>`<button class="${filter===v?'active':''}" onclick="filter='${v}';render()">${t}</button>`).join('')}</div>
- <div class="list">${shown.length?shown.map(card).join(''):'<div class="card empty">No IPO found.</div>'}</div></section>
- <div class="notice">⚠️ GMP is an unofficial grey-market sentiment indicator. It is not a guaranteed listing price or return.</div>`;
+
+function saveHistorySnapshot(){
+  const hist=JSON.parse(localStorage.getItem(CONFIG.HISTORY_KEY)||'{}');
+  const key=new Date().toISOString().slice(0,10);
+  hist[key]=state.data.map(x=>({id:x.id,gmp:x.gmp,at:Date.now()}));
+  localStorage.setItem(CONFIG.HISTORY_KEY,JSON.stringify(hist));
 }
-function watchPage(){
- const a=allIpos().filter(x=>watch.includes(x.slug));
- return `<section><div class="title">⭐ My Watchlist</div><div class="list">${a.length?a.map(card).join(''):'<div class="card empty">No IPO saved yet.<br>Tap ☆ Watch on any IPO.</div>'}</div></section>`;
+
+function card(item){
+  const p=gmpPct(item), sign=item.gmp>0?'positive':item.gmp<0?'negative':'neutral';
+  const watched=state.watchlist.includes(item.id);
+  return `<div class="ipo-card">
+    <div class="ipo-top"><div><div class="ipo-name">${esc(item.name)}</div><div class="mini">${esc(item.type)}</div></div><span class="badge">${esc(item.status)}</span></div>
+    <div class="gmp-row"><div><div class="mini">GMP</div><div class="gmp ${sign}">${item.gmp>=0?'':'-'}${money(Math.abs(item.gmp))}</div></div><div style="text-align:right"><div class="mini">GMP %</div><div class="gmp-pct ${sign}">${item.gmp>=0?'+':''}${pct(p)}</div></div></div>
+    <div class="ipo-meta">
+      <div>IPO Price<b>${money(item.priceHigh)}</b></div>
+      <div>Est. Listing<b>${money(listing(item))}</b></div>
+      <div>Lot Size<b>${item.lotSize||'—'}</b></div>
+      <div>Updated<b>${item.updatedMinutes?item.updatedMinutes+'m ago':'now'}</b></div>
+    </div>
+    <div class="card-actions">
+      <button class="btn primary" onclick="openDetails('${item.id}')">View Details</button>
+      <button class="btn secondary" onclick="toggleWatch('${item.id}')">${watched?'★ Saved':'☆ Watch'}</button>
+    </div>
+  </div>`;
 }
-function calcPage(){
- return `<section><div class="title">🧮 GMP Calculator</div><div class="card" style="padding:14px"><div class="calc">
- <div><div class="small">IPO Price</div><input id="cp" type="number" value="100"></div>
- <div><div class="small">GMP</div><input id="cg" type="number" value="20"></div>
- <div><div class="small">Lots</div><input id="cl" type="number" value="1"></div>
- <div><div class="small">Shares / Lot</div><input id="cs" type="number" value="10"></div>
- <button class="full" onclick="calculate()" style="padding:11px;border:0;border-radius:10px;background:#1d5d94;color:#fff">Calculate</button>
- <div class="full" id="cres"></div></div></div></section>`;
+
+function renderHome(){
+  const live=state.data.filter(x=>['OPEN','CLOSED','LISTED'].includes(x.status)).length;
+  $('statLive').textContent=live;$('statOpen').textContent=state.data.filter(x=>x.status==='OPEN').length;$('statUpcoming').textContent=state.data.filter(x=>x.status==='UPCOMING').length;
+  const top=[...state.data].sort((a,b)=>gmpPct(b)-gmpPct(a)).slice(0,4);
+  $('topList').innerHTML=top.map(card).join('')||'<div class="empty">No IPO data</div>';
+  $('upcomingList').innerHTML=state.data.filter(x=>x.status==='UPCOMING').slice(0,3).map(card).join('')||'<div class="empty">No upcoming IPO</div>';
 }
+
+function renderGMP(){
+  const q=($('searchInput')?.value||'').trim().toLowerCase();
+  let list=state.data.filter(x=>(state.statusFilter==='ALL'||x.status===state.statusFilter)&&(state.typeFilter==='ALL'||x.type===state.typeFilter)&&(!q||x.name.toLowerCase().includes(q)));
+  if(state.sort==='gmp')list.sort((a,b)=>b.gmp-a.gmp);else if(state.sort==='pct')list.sort((a,b)=>gmpPct(b)-gmpPct(a));else list.sort((a,b)=>(a.updatedMinutes||9999)-(b.updatedMinutes||9999));
+  $('gmpList').innerHTML=list.map(card).join('')||'<div class="empty">No matching IPO found.</div>';
+  document.querySelectorAll('[data-status]').forEach(b=>b.classList.toggle('active',b.dataset.status===state.statusFilter));
+  document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===state.typeFilter));
+  document.querySelectorAll('[data-sort]').forEach(b=>b.classList.toggle('active',b.dataset.sort===state.sort));
+}
+
+function renderWatchlist(){
+  const list=state.data.filter(x=>state.watchlist.includes(x.id));
+  $('watchList').innerHTML=list.map(card).join('')||'<div class="empty">No IPO added yet.<br>Tap ☆ Watch on any IPO.</div>';
+}
+
+function renderAlerts(){
+  const alerts=state.alerts;
+  $('alertList').innerHTML=`
+    <div class="list-row"><div><b>GMP target alerts</b><div class="mini">Browser notifications require permission and may depend on platform support.</div></div><button class="btn primary" onclick="requestNotifications()">Enable</button></div>
+    ${alerts.length?alerts.map((a,i)=>`<div class="list-row"><div><b>${esc(a.name)}</b><div class="mini">Alert at GMP ${money(a.target)}</div></div><button class="btn danger" onclick="removeAlert(${i})">Remove</button></div>`).join(''):'<div class="empty">No GMP alerts configured.</div>'}`;
+}
+
+function renderDetails(id){
+  const x=state.data.find(i=>i.id===id);if(!x)return;
+  const p=gmpPct(x), s=x.subscription||{};
+  const hist=JSON.parse(localStorage.getItem(CONFIG.HISTORY_KEY)||'{}');
+  const rows=Object.entries(hist).slice(-7).map(([day,items])=>{const z=items.find(i=>i.id===x.id);return z?`<tr><td>${day}</td><td>${money(z.gmp)}</td><td>${pct(x.priceHigh?z.gmp/x.priceHigh*100:0)}</td></tr>`:''}).filter(Boolean).join('');
+  $('details').innerHTML=`<button class="back" onclick="showScreen('gmp')">← Back to GMP</button>
+    <div class="detail-head">
+      <div class="mini">${esc(x.type)} • ${esc(x.status)}</div><h2 style="margin:5px 0">${esc(x.name)}</h2>
+      <div class="big-number ${x.gmp>=0?'positive':'negative'}">${x.gmp>=0?'':'-'}${money(Math.abs(x.gmp))}</div>
+      <div class="${x.gmp>=0?'positive':'negative'}" style="font-weight:800">${x.gmp>=0?'+':''}${pct(p)} GMP</div>
+      <div class="card-actions"><button class="btn primary" onclick="toggleWatch('${x.id}')">${state.watchlist.includes(x.id)?'★ Remove Watchlist':'☆ Add Watchlist'}</button><button class="btn secondary" onclick="addAlert('${x.id}')">🔔 GMP Alert</button></div>
+    </div>
+    <div class="section-title"><h2>Price & Estimate</h2></div>
+    <div class="detail-grid">
+      <div class="detail-box"><small>Price Band</small><b>${money(x.priceLow)}–${money(x.priceHigh)}</b></div>
+      <div class="detail-box"><small>Est. Listing</small><b>${money(listing(x))}</b></div>
+      <div class="detail-box"><small>Gain / Share</small><b>${money(x.gmp)}</b></div>
+      <div class="detail-box"><small>Lot Size</small><b>${x.lotSize||'—'}</b></div>
+      <div class="detail-box"><small>Issue Size</small><b>${esc(x.issueSize)}</b></div>
+      <div class="detail-box"><small>Last Update</small><b>${x.updatedMinutes?x.updatedMinutes+' min ago':'Just now'}</b></div>
+    </div>
+    <div class="section-title"><h2>Important Dates</h2></div>
+    <div class="detail-grid">
+      <div class="detail-box"><small>Open</small><b>${esc(x.openDate)}</b></div><div class="detail-box"><small>Close</small><b>${esc(x.closeDate)}</b></div>
+      <div class="detail-box"><small>Allotment</small><b>${esc(x.allotmentDate)}</b></div><div class="detail-box"><small>Listing</small><b>${esc(x.listingDate)}</b></div>
+    </div>
+    <div class="section-title"><h2>Subscription</h2></div>
+    <div class="detail-grid">
+      <div class="detail-box"><small>Retail</small><b>${s.retail||0}x</b></div><div class="detail-box"><small>NII</small><b>${s.nii||0}x</b></div>
+      <div class="detail-box"><small>QIB</small><b>${s.qib||0}x</b></div><div class="detail-box"><small>Total</small><b>${s.total||0}x</b></div>
+    </div>
+    <div class="section-title"><h2>GMP History</h2></div>
+    <div class="table-card">${rows?`<table><thead><tr><th>Date</th><th>GMP</th><th>GMP %</th></tr></thead><tbody>${rows}</tbody></table>`:'<div class="empty">History will appear after data snapshots are collected.</div>'}</div>
+    <div class="note" style="margin-top:12px">GMP is unofficial grey-market information. Estimated listing price = upper price band + current GMP; this is an indicative calculation, not a guaranteed listing price.</div>`;
+}
+
+function openDetails(id){state.selectedId=id;showScreen('details');renderDetails(id)}
+
+function setStatusFilter(v){state.statusFilter=v;showScreen('gmp');renderGMP()}
+function setTypeFilter(v){state.typeFilter=v;showScreen('gmp');renderGMP()}
+function setSort(v){state.sort=v;renderGMP()}
+
+function toggleWatch(id){
+  state.watchlist=state.watchlist.includes(id)?state.watchlist.filter(x=>x!==id):[...state.watchlist,id];
+  localStorage.setItem(CONFIG.WATCH_KEY,JSON.stringify(state.watchlist));
+  renderAll(); if(state.selectedId)renderDetails(state.selectedId);
+  toast(state.watchlist.includes(id)?'Added to watchlist':'Removed from watchlist');
+}
+
+function addAlert(id){
+  const x=state.data.find(i=>i.id===id);if(!x)return;
+  const target=prompt('Alert when GMP reaches (₹):',String(x.gmp));
+  if(target===null)return;
+  const n=Number(target);if(!Number.isFinite(n))return toast('Enter a valid GMP value');
+  state.alerts.push({id:Date.now(),ipoId:id,name:x.name,target:n});
+  localStorage.setItem(CONFIG.ALERTS_KEY,JSON.stringify(state.alerts));renderAlerts();toast('GMP alert saved');
+}
+
+function removeAlert(i){state.alerts.splice(i,1);localStorage.setItem(CONFIG.ALERTS_KEY,JSON.stringify(state.alerts));renderAlerts()}
+
+async function requestNotifications(){
+  if(!('Notification' in window))return toast('Notifications are not supported here');
+  const p=await Notification.requestPermission();toast(p==='granted'?'Notifications enabled':'Notification permission not granted');
+}
+
+function checkAlerts(){
+  state.alerts.forEach(a=>{
+    const x=state.data.find(i=>i.id===a.ipoId);
+    if(x && Number(x.gmp)>=Number(a.target) && 'Notification' in window && Notification.permission==='granted'){
+      try{new Notification('GMP Alert',{body:`${x.name}: GMP reached ${money(x.gmp)}`})}catch(e){}
+    }
+  });
+}
+
 function calculate(){
- const p=+document.getElementById('cp').value||0,g=+document.getElementById('cg').value||0,l=+document.getElementById('cl').value||0,s=+document.getElementById('cs').value||0;
- const est=p+g,total=est*l*s,inv=p*l*s;
- document.getElementById('cres').innerHTML=`<div class="metrics"><div class="metric"><b>${money(est)}</b><span>Estimated listing/share</span></div><div class="metric"><b>${money(total)}</b><span>Estimated value</span></div><div class="metric"><b>${money(total-inv)}</b><span>Paper gain</span></div></div>`;
+  const price=Number($('calcPrice').value)||0,g=Number($('calcGmp').value)||0,lot=Number($('calcLot').value)||0,lots=Number($('calcLots').value)||0;
+  $('rListing').textContent=money(price+g);$('rGain').textContent=money(g);$('rLotGain').textContent=money(g*lot);$('rTotal').textContent=money(g*lot*lots);$('rPct').textContent=price?(g/price*100).toFixed(2)+'%':'0.00%';
 }
-function details(slug){
- const x=data.find(a=>a.slug===slug); if(!x)return;
- current=x;
- const hist=x.history||[];
- document.getElementById('sheet').innerHTML=`<button class="icon close" onclick="closeModal()">✕</button><h2>${esc(x.name)}</h2>
- <div class="gmp">${Number(x.median_gmp)>=0?'+':''}${money(x.median_gmp)}</div>
- <div class="small">Median GMP • ${x.n_sources||0} public sources • ${esc(x.confidence||'n/a')} confidence</div>
- <canvas id="chart" width="680" height="170"></canvas>
- <div class="kv" style="margin-top:10px">
- <div><small>GMP range</small><b>${money(x.min_gmp)} – ${money(x.max_gmp)}</b></div>
- <div><small>Est. listing</small><b>${isNaN(+x.est_listing_pct)?'—':Number(x.est_listing_pct).toFixed(2)+'%'}</b></div>
- <div><small>Price band</small><b>${money(x.price_band)}</b></div>
- <div><small>Subscription</small><b>${x.subscription!=null?Number(x.subscription).toFixed(2)+'×':'—'}</b></div>
- <div><small>Issue size</small><b>${esc(x.issue_size||'—')}</b></div>
- <div><small>Lot size</small><b>${esc(x.lot_size||'—')}</b></div>
- <div><small>Open/Close</small><b>${esc(x.open_close||x.dates||'—')}</b></div>
- <div><small>Listing date</small><b>${esc(x.listing_date||'—')}</b></div></div>
- <div class="title">Confidence ${esc(x.score!=null?x.score+'/100':'—')}</div><div class="bar"><i style="width:${Math.max(0,Math.min(100,+x.score||0))}%"></i></div>
- <div class="source">Data source: free public dataset. Source metadata and tracker links are supplied by the dataset. GMP remains unofficial. Last source generation: ${esc(meta.generated_display||'—')}.</div>
- <div class="actions"><button onclick="setAlert('${esc(x.slug)}')">🔔 Alert</button><button onclick="toggleWatch('${esc(x.slug)}')">${watch.includes(x.slug)?'★ Saved':'☆ Watch'}</button></div>`;
- document.getElementById('modal').classList.add('show'); drawChart(hist);
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+  if(id==='home')renderHome();if(id==='gmp')renderGMP();if(id==='watchlist')renderWatchlist();if(id==='alerts')renderAlerts();if(id==='settings')renderSettings();if(id==='calculator')calculate();if(id==='details'&&state.selectedId)renderDetails(state.selectedId);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-function drawChart(h){
- const c=document.getElementById('chart');if(!c)return;const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
- if(!h.length){ctx.fillStyle='#9fb0c7';ctx.fillText('No history available',20,80);return}
- const vals=h.map(a=>+a.median||0),max=Math.max(...vals,1),min=Math.min(...vals,0),pad=25;
- ctx.strokeStyle='#31445f';ctx.beginPath();ctx.moveTo(pad,145);ctx.lineTo(655,145);ctx.stroke();
- ctx.strokeStyle='#5aa9ff';ctx.lineWidth=3;ctx.beginPath();
- vals.forEach((v,i)=>{const x=pad+i*(630/Math.max(1,vals.length-1)),y=135-(v-min)/(Math.max(1,max-min))*100;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
- ctx.fillStyle='#eef5ff';ctx.font='12px system-ui';ctx.fillText('₹'+vals[0],25,20);ctx.fillText('₹'+vals[vals.length-1],610,20);
+
+function renderSettings(){
+  $('themeSwitch').classList.toggle('on',state.settings.dark);$('refreshSwitch').classList.toggle('on',state.settings.autoRefresh);
+  $('refreshInterval').value=String(state.settings.interval);
 }
-function toggleWatch(slug){watch=watch.includes(slug)?watch.filter(x=>x!==slug):[...watch,slug];save();render();if(current&&document.getElementById('modal').classList.contains('show'))details(slug)}
-function setAlert(slug){
- const v=prompt('Alert when GMP reaches or exceeds ₹:',alerts[slug]?.threshold??'');
- if(v===null)return; const n=Number(v);if(!isFinite(n))return alert('Enter a valid number.');
- alerts[slug]={threshold:n,last:alerts[slug]?.last||null};save();checkAlerts(true);alert('Alert saved at ₹'+n+'.');
+function toggleTheme(){state.settings.dark=!state.settings.dark;applySettings();saveSettings()}
+function toggleAutoRefresh(){state.settings.autoRefresh=!state.settings.autoRefresh;applySettings();saveSettings();startRefreshTimer()}
+function saveSettings(){state.settings.interval=Number($('refreshInterval').value);localStorage.setItem(CONFIG.SETTINGS_KEY,JSON.stringify(state.settings));startRefreshTimer()}
+function applySettings(){document.body.classList.toggle('dark',!!state.settings.dark);renderSettings()}
+function startRefreshTimer(){
+  clearInterval(state.refreshTimer);
+  if(state.settings.autoRefresh)state.refreshTimer=setInterval(refreshData,state.settings.interval);
 }
-function checkAlerts(manual=false){
- let hit=[];
- data.forEach(x=>{const a=alerts[x.slug];if(a&&Number(x.median_gmp)>=a.threshold&&a.last!==meta.generated_at){hit.push(x.name+' GMP reached ₹'+x.median_gmp);a.last=meta.generated_at;}});
- if(hit.length){save(); if('Notification' in window && Notification.permission==='granted') hit.forEach(t=>new Notification('IPO GMP Alert',{body:t})); if(!manual) alert(hit.join('\\n'))}
+function clearCache(){localStorage.removeItem(CONFIG.CACHE_KEY);localStorage.removeItem(CONFIG.HISTORY_KEY);toast('Cached data and history cleared');}
+function renderAll(){renderHome();renderGMP();renderWatchlist();renderAlerts();renderSettings()}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>t.classList.remove('show'),2200)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function init(){
+  applySettings();calculate();refreshData();startRefreshTimer();
 }
-async function notify(){
- if(!('Notification'in window))return alert('Browser notifications are not supported here.');
- const p=await Notification.requestPermission();alert(p==='granted'?'Notifications enabled.':'Notifications not enabled.');
-}
-function settings(){
- return `<section><div class="title">⚙️ Free App Settings</div><div class="card" style="padding:14px">
- <div class="notice">No API key is required. This app reads a public JSON dataset. The dataset is generated periodically, so this is not tick-by-tick exchange/GMP data.</div>
- <div class="actions"><button onclick="load()">↻ Refresh now</button><button onclick="notify()">🔔 Notifications</button></div>
- <div class="actions"><button onclick="exportWatch()">Export Watchlist</button><button onclick="clearSaved()">Clear saved data</button></div>
- <div class="source"><b>Data file</b><br>${esc(API)}<br><br>Use only for personal/informational purposes. Always verify IPO price, subscription, allotment and listing details with official exchange/registrar sources before acting.</div>
- </div></section>`;
-}
-function exportWatch(){const blob=new Blob([JSON.stringify(watch,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ipo-watchlist.json';a.click();URL.revokeObjectURL(a.href)}
-function clearSaved(){if(confirm('Clear watchlist, alerts and cached data?')){localStorage.removeItem(STORE+'_watch');localStorage.removeItem(STORE+'_alerts');localStorage.removeItem(STORE+'_last');location.reload()}}
-function openSettings(){page='settings';render()}
-function closeModal(){document.getElementById('modal').classList.remove('show')}
-function go(p){page=p;filter=p==='watch'?'watch':'all';render()}
-function render(){
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));const nb=document.getElementById('n-'+page);if(nb)nb.classList.add('active');
- document.getElementById('main').innerHTML=page==='home'?home():page==='watch'?watchPage():page==='calc'?calcPage():settings();
-}
-async function load(){
- try{
-  const r=await fetch(API+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);
-  const j=await r.json();data=Array.isArray(j.ipos)?j.ipos:[];
-  meta=j;last=j;localStorage.setItem(STORE+'_last',JSON.stringify(j));
-  checkAlerts();render();
- }catch(e){
-  const j=last||JSON.parse(localStorage.getItem(STORE+'_last')||'null');
-  if(j){meta=j;data=j.ipos||[];render();}else{data=[];render();}
-  console.error(e);
- }
-}
-(function init(){if(last){meta=last;data=last.ipos||[]}render();load();setInterval(load,10*60*1000)})();
+init();
 </script>
-</body></html>
+</body>
+</html>
